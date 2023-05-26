@@ -1,8 +1,8 @@
-<h1 align="center">
+<h2 align="center">
     <img alt="Ignite Feed" src="https://res.cloudinary.com/detdryurd/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1685064255/Group_15_wutqbo.jpg" />
     <br>
     Ignite Feed is a straightforward project that replicates the functionality of a social media feed. It allows users to interact through features commonly found in these platforms, including commenting, liking, and deleting comments
-</h1>
+</h2>
 
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/arthurjfreitas/igt-feed.svg">
