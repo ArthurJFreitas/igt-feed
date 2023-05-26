@@ -1,7 +1,7 @@
 <h1 align="center">
     <img alt="Ignite Feed" src="https://res.cloudinary.com/detdryurd/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1685064255/Group_15_wutqbo.jpg" />
     <br>
-    Ignite Feed is a straightforward project that replicates the functionality of a social media feed. It allows users to interact through features commonly found in these platforms, including commenting, liking, and deleting comments. The purpose of this project is to provide a clear and concise way of understanding how these common functionalities of a social network can be implemented using React. It offers a simplistic yet interactive platform where users can simulate a social media-like experience. Whether you're a developer aiming to understand the underlying mechanics of social media interactions or a user who just wants to engage in a simulated feed, Ignite Feed caters to your needs.
+    Ignite Feed is a straightforward project that replicates the functionality of a social media feed. It allows users to interact through features commonly found in these platforms, including commenting, liking, and deleting comments
 </h1>
 
 <p align="center">
