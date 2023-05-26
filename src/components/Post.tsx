@@ -6,123 +6,130 @@ import { Comment } from './Comment';
 import styles from './Post.module.css';
 
 interface Author {
-	name: string;
-	role: string;
-	avatarUrl: string;
+  name: string;
+  role: string;
+  avatarUrl: string;
 }
 
 interface Content {
-	type: string;
-	content: string;
+  type: string;
+  content: string;
+}
+
+export interface PostType {
+  id: number;
+  author: Author;
+  publishedAt: Date;
+  content: Content[];
 }
 
 interface PostProps {
-	author: Author;
-	publishedAt: Date;
-	content: Content[];
+  post: PostType;
 }
 
-export function Post({ author, publishedAt, content }: PostProps) {
-	const [commentsMock, setCommentsMock] = useState([
-		'Great post, congrats! 🔥 🚀',
-	]);
+export function Post({ post }: PostProps) {
+  const { author, publishedAt, content } = post;
 
-	const [newCommentText, setNewCommentText] = useState('');
+  const [commentsMock, setCommentsMock] = useState([
+    'Great post, congrats! 🔥 🚀',
+  ]);
 
-	const publishedDateFormatted = format(
-		publishedAt,
-		"'on' MMMM do 'at' h:mm a",
-		{
-			locale: enUS,
-		}
-	);
+  const [newCommentText, setNewCommentText] = useState('');
 
-	const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
-		locale: enUS,
-		addSuffix: true,
-	});
+  const publishedDateFormatted = format(
+    publishedAt,
+    "'on' MMMM do 'at' h:mm a",
+    {
+      locale: enUS,
+    },
+  );
 
-	function handleCreateNewComment(event: FormEvent) {
-		event.preventDefault();
-		setCommentsMock([...commentsMock, newCommentText]);
-		setNewCommentText('');
-	}
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: enUS,
+    addSuffix: true,
+  });
 
-	function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
-		event.target.setCustomValidity(``);
-		setNewCommentText(event.target.value);
-	}
+  function handleCreateNewComment(event: FormEvent) {
+    event.preventDefault();
+    setCommentsMock([...commentsMock, newCommentText]);
+    setNewCommentText('');
+  }
 
-	function deleteComment(commentToDelete: string) {
-		const commentsWithoutDeletedOne = commentsMock.filter((comment) => {
-			return comment !== commentToDelete;
-		});
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity(``);
+    setNewCommentText(event.target.value);
+  }
 
-		setCommentsMock(commentsWithoutDeletedOne);
-	}
+  function deleteComment(commentToDelete: string) {
+    const commentsWithoutDeletedOne = commentsMock.filter(comment => {
+      return comment !== commentToDelete;
+    });
 
-	const isNewCommentEmpty = newCommentText.length === 0;
-	return (
-		<article className={styles.post}>
-			<header>
-				<div className={styles.author}>
-					<Avatar src={author.avatarUrl} />
-					<div className={styles.authorInfo}>
-						<strong>{author.name}</strong>
-						<span>{author.role}</span>
-					</div>
-				</div>
+    setCommentsMock(commentsWithoutDeletedOne);
+  }
 
-				<time
-					title={publishedDateFormatted}
-					dateTime={publishedAt.toISOString()}
-				>
-					{publishedDateRelativeToNow}
-				</time>
-			</header>
-			<div className={styles.content}>
-				{content.map((contentItem) => {
-					if (contentItem.type === 'paragraph') {
-						return <p key={contentItem.content}>{contentItem.content}</p>;
-					} else if (contentItem.type === 'link') {
-						return (
-							<p key={contentItem.content}>
-								<a href="#">{contentItem.content}</a>
-							</p>
-						);
-					}
-				})}
-			</div>
+  const isNewCommentEmpty = newCommentText.length === 0;
+  return (
+    <article className={styles.post}>
+      <header>
+        <div className={styles.author}>
+          <Avatar src={author.avatarUrl} />
+          <div className={styles.authorInfo}>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
+          </div>
+        </div>
 
-			<form onSubmit={handleCreateNewComment} className={styles.commentForm}>
-				<strong>Leave your feedback</strong>
-				<textarea
-					name="comment"
-					placeholder="Leave a comment"
-					value={newCommentText}
-					onChange={handleNewCommentChange}
-					required
-				/>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDateRelativeToNow}
+        </time>
+      </header>
+      <div className={styles.content}>
+        {content.map(contentItem => {
+          if (contentItem.type === 'paragraph') {
+            return <p key={contentItem.content}>{contentItem.content}</p>;
+          } else if (contentItem.type === 'link') {
+            return (
+              <p key={contentItem.content}>
+                <a href="#">{contentItem.content}</a>
+              </p>
+            );
+          }
+        })}
+      </div>
 
-				<footer>
-					<button type="submit" disabled={isNewCommentEmpty}>
-						Post
-					</button>
-				</footer>
-			</form>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+        <strong>Leave your feedback</strong>
+        <textarea
+          name="comment"
+          placeholder="Leave a comment"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
+          required
+        />
 
-			<div className={styles.commentList}>
-				{commentsMock.map((comment) => {
-					return (
-						<Comment
-							key={comment}
-							content={comment}
-							onDeleteComment={deleteComment}
-							createdAt={new Date(2023, 5, 11)}
-						/>
-					);
-				})}
-			</div>
-		</article>
-	);
+        <footer>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Post
+          </button>
+        </footer>
+      </form>
+
+      <div className={styles.commentList}>
+        {commentsMock.map(comment => {
+          return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+              createdAt={new Date(2023, 5, 11)}
+            />
+          );
+        })}
+      </div>
+    </article>
+  );
 }
